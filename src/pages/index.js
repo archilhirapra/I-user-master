@@ -93,18 +93,18 @@ const Home = () => {
   const auth = useAuth();
   const router = useRouter();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  useEffect(() => {
-    if (window.localStorage.getItem("accessToken")) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-    fetchAllSubscriptions();
-    fetchMembershipDetails();
-    fetchAppLink();
-    fetchCheckForSubScription();
-  }, []);
+const [isLoggedIn, setIsLoggedIn] = useState(false);
+useEffect(() => {
+  if (window.localStorage.getItem("accessToken")) {
+    setIsLoggedIn(true);
+  } else {
+    setIsLoggedIn(false);
+  }
+  fetchAllSubscriptions();
+  fetchMembershipDetails();
+  fetchAppLink();
+  isLoggedIn && fetchCheckForSubScription();
+}, []);
 
   const [openAlert, setOpenAlert] = useState(false);
   const [title, setTitle] = useState("");

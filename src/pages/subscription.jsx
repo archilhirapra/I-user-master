@@ -104,17 +104,24 @@ function Subscription() {
   const [subscriptionMembershipDetail, setMembershipSubscriptionDetail] = useState([]);
 
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const [subscriptionList, setSubscriptionList] = useState([subscriptionListInitials]);
   const router = useRouter();
   useEffect(() => {
+    if (window.localStorage.getItem("accessToken")) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
     fetchAllSubscriptions();
     fetchMembershipDetails();
-    getPlanSubsriptionDetail();
-    getMembershipSubsriptionDetail();
+    isLoggedIn && getPlanSubsriptionDetail();
+    isLoggedIn && getMembershipSubsriptionDetail();
   }, []);
 
   useEffect(() => {
-    open && fetchUserCardDetail();
+    isLoggedIn && open && fetchUserCardDetail();
   }, [open]);
 
   const fetchUserCardDetail = async () => {
