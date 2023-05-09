@@ -760,7 +760,7 @@ function Subscription() {
                   <button
                     onClick={() => CancelPlan("plan", subscriptionDetail[0])}
                     className="mx-auto mb-4 block w-max rounded-full bg-[#FF782C] py-2.5 px-8 text-white">
-                    Cancel Plan
+                    Cancel Plan 
                   </button>
                 </>
               }
