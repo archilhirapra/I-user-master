@@ -6,7 +6,7 @@ import {
 } from "react-icons/ri";
 import Accordion from "../components/account/Accordion";
 import ModalResponsive from "../components/ModalResponsive";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import { TrashIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Footer from "../components/Footer";
 import axios from "axios";
 import subscriptionConfig from "src/configs/subscriptionConfig";
@@ -102,8 +102,6 @@ function Subscription() {
   const [selectCard, setSelectCard] = useState("");
   const [subscriptionDetail, setPlanSubscriptionDetail] = useState([]);
   const [subscriptionMembershipDetail, setMembershipSubscriptionDetail] = useState([]);
-
-
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [subscriptionList, setSubscriptionList] = useState([subscriptionListInitials]);
@@ -249,12 +247,12 @@ function Subscription() {
         }
       })
         .then(async (res) => {
-          if(res?.data?.data?.data?.link) {
+          if (res?.data?.data?.data?.link) {
             router.push(res?.data?.data?.data?.link);
           }
           setOpenAlert(true);
           setType("success");
-          setTitle(`Purchase ${isMembership ? 'Membership' : 'Plan'}`);
+          setTitle(`Purchase ${isMembership ? "Membership" : "Plan"}`);
           setMsg(res?.data?.message);
           setError("");
           setSelectCard("");
@@ -443,7 +441,7 @@ function Subscription() {
                         </div>
                       </div>
                     )}
-                    {showInput && <>
+                    {showInput && <div className="flex items-center gap-2">
                       <CreditCardInput
                         cardNumberInputProps={{
                           value: addCardData.card_number, onChange: (e) => {
@@ -466,7 +464,12 @@ function Subscription() {
                         fieldClassName="input"
                         onError={(e) => setError(e?.error)}
                       />
-                    </>}
+                      <TrashIcon className="h-7 cursor-pointer w-7" onClick={() => {
+                        setShowInput(false);
+                        setAddCardData({});
+                        setError('');
+                      }}/>
+                    </div>}
                   </div>
                   <button disabled={error} className="mx-auto mb-4 mt-10 block w-max btn-primary"
                           onClick={() => HandleAddCard()}>
@@ -570,9 +573,10 @@ function Subscription() {
                 isSubmitting ?
                   <LoadingButton widthClassName="w-full"/>
                   :
-                  <button disabled={!isTOSAgreed || addCard ? !selectCard : false} className="btn-primary" onClick={() => {
-                    addCard ? purchasePlan() : setAddCard(!addCard);
-                  }}>
+                  <button disabled={!isTOSAgreed || addCard ? !selectCard : false} className="btn-primary"
+                          onClick={() => {
+                            addCard ? purchasePlan() : setAddCard(true);
+                          }}>
                     {/*<button disabled={!isTOSAgreed} className="btn-primary" onClick={() => purchasePlan()}>*/}
                     {!addCard ? "Select Card" : "Make Payment"}
                   </button>
@@ -591,7 +595,7 @@ function Subscription() {
             }
           </p>
         </div>
-        {subscriptionMembershipDetail?.length &&
+        {subscriptionMembershipDetail?.length ?
           <div className="mt-8 mb-6 bg-[#FFD990] rounded-2xl">
             <div className="container">
               <h2 className="text-center text-xl font-semibold md:py-16 md:text-3xl">
@@ -606,6 +610,8 @@ function Subscription() {
               </div>}
             </div>
           </div>
+          :
+          <></>
         }
         {
           isSubsPackagesLoading ?
@@ -741,7 +747,7 @@ function Subscription() {
               }
             </div>
         }
-        {subscriptionDetail?.length && <div className="mt-8 bg-[#FFD990] rounded-2xl">
+        {subscriptionDetail?.length ? <div className="mt-8 bg-[#FFD990] rounded-2xl">
           <div className="container">
             <h2 className="text-center text-xl font-semibold md:py-16 md:text-3xl">
               Subscription Plans
@@ -760,7 +766,7 @@ function Subscription() {
               }
             </div>
           </div>
-        </div>}
+        </div> : <></>}
         {/* <div className="py-4">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad,
           exercitationem, nihil. Ab blanditiis fugiat iure molestias officiis
