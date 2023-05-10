@@ -389,6 +389,14 @@ function Subscription() {
           setAddCard(false);
           setShowInput(false);
           setAddCardData(initialState);
+          setIsMembership(false);
+          setClickedPlan({});
+          setError("");
+          setSelectCard("");
+          setAddCard(false);
+          setAddCardData({});
+          setCardDetail([]);
+          setChoosenPackage({});
         }}>
           <div className="flex h-full max-h-[80vh] flex-col">
             <div className="flex items-center justify-between border-b p-4">
@@ -467,7 +475,7 @@ function Subscription() {
                       <TrashIcon className="h-7 cursor-pointer w-7" onClick={() => {
                         setShowInput(false);
                         setAddCardData({});
-                        setError('');
+                        setError("");
                       }}/>
                     </div>}
                   </div>
@@ -573,7 +581,7 @@ function Subscription() {
                 isSubmitting ?
                   <LoadingButton widthClassName="w-full"/>
                   :
-                  <button disabled={!isTOSAgreed || addCard ? !selectCard : false} className="btn-primary"
+                  <button disabled={!isTOSAgreed || addCard ? selectCard === '' : false} className="btn-primary"
                           onClick={() => {
                             addCard ? purchasePlan() : setAddCard(true);
                           }}>
@@ -760,7 +768,7 @@ function Subscription() {
                   <button
                     onClick={() => CancelPlan("plan", subscriptionDetail[0])}
                     className="mx-auto mb-4 block w-max rounded-full bg-[#FF782C] py-2.5 px-8 text-white">
-                    Cancel Plan 
+                    Cancel Plan
                   </button>
                 </>
               }
